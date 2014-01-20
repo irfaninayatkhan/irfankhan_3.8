@@ -1,0 +1,47 @@
+import csv
+
+"""Reading a csv in the below format and displaying the name , year, month of the company in which the share price was highest
+    ------------------------------------------------------------
+    YEAR,MONTH,COMPANY A,COMPANY B,COMPANY C,COMPANY D,COMPANY E
+    ------------------------------------------------------------
+    1990,Jan,10,20,30,40,50
+
+OUTPUT
+----------------------------------
+['COMPANY A', '1990', 'Aug', 1000]
+['COMPANY B', '1993', 'Jun', 800]
+['COMPANY C', '1991', 'Nov', 2500]
+['COMPANY D', '1992', 'Mar', 2000]
+['COMPANY E', '1994', 'Aug', 3000]
+----------------------------------
+"""
+
+def readcsv():
+    """
+    Read a csv in the format YEAR,MONTH,COMPANY A,COMPANY B,COMPANY C,COMPANY D,COMPANY E and display the compay name , month , year when it was having the highest price.
+    """
+    try:
+        f = open('global_logica.csv', 'r')
+    except IOError:
+        print "File not found"
+    else:           
+        price_list = []
+        reader = csv.reader(f, delimiter=',')
+        header = reader.next()          # CSV Header 
+        zippedcolumns = zip(*reader)    # List csv column values column wise
+        for company in range(2,len(header)):
+            track_index_price = {}
+            high_price = 0
+            for index,price in enumerate(zippedcolumns[company]): #picking index and share price together
+                if high_price<int(price):
+                    high_price = int(price)
+                    track_index_price = {high_price:index}        #track index and highest price  
+            price_list.append(high_price)
+            detailList = [header[company],zippedcolumns[0][track_index_price[high_price]],zippedcolumns[1][track_index_price[high_price]],high_price]
+            print detailList            # Print company names with month, year in which the share price was highest
+        f.close()
+        return price_list               # Just for running the test case, we are expecting the list of highest share prices
+
+if __name__=="__main__":
+    readcsv()
+    
