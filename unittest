@@ -1,0 +1,11 @@
+import unittest
+import global_logica_test
+
+'''Will do a unit test just by returning the highest share price list of all the companies'''
+
+class MyTest(unittest.TestCase):
+    def test(self):
+        self.assertEqual(global_logica_test.readcsv(), [1000, 800, 2500, 2000, 3000])
+
+if __name__ == "__main__":
+    unittest.main()
